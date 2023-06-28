@@ -25,18 +25,18 @@ namespace WebAPIAutores.Controllers
         private readonly UserManager<IdentityUser> userManager;
         private readonly IConfiguration configuration;
         private readonly SignInManager<IdentityUser> signInManager;
-        private readonly HashService hashService;
-        private readonly IDataProtector dataProtector;
+        private readonly ServicioLlaves servicioLlaves;
 
         public CuentasController(UserManager<IdentityUser> userManager,
             IConfiguration configuration,
             SignInManager<IdentityUser> signInManager,
-            IDataProtectionProvider dataProtectionProvider,
-            HashService hashService)
+            ServicioLlaves servicioLlaves
+            )
         {
             this.userManager = userManager;
             this.configuration = configuration;
             this.signInManager = signInManager;
+            this.servicioLlaves = servicioLlaves;
         }
    
         [HttpPost("registrar")] // api/cuentas/registrar
@@ -48,6 +48,7 @@ namespace WebAPIAutores.Controllers
 
             if (resultado.Succeeded)
             {
+                await servicioLlaves.CrearLlave(usuario.Id, Entidades.TipoLlave.Gratuita);
                 return await ConstruirToken(credencialesUsuario, usuario.Id);
             }
             else
@@ -65,7 +66,7 @@ namespace WebAPIAutores.Controllers
             if (resultado.Succeeded)
             {
                 var usuario = await userManager.FindByEmailAsync(credencialesUsuario.Email);
-                return await ConstruirToken(credencialesUsuario,usuario.Id);
+                return await ConstruirToken(credencialesUsuario, usuario.Id);
             }
             else
             {
