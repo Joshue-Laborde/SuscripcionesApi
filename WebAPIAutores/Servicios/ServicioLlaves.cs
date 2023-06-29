@@ -15,7 +15,7 @@ namespace WebAPIAutores.Servicios
 
         public async Task CrearLlave(string usuarioId, TipoLlave tipoLlave)
         {
-            var llave = Guid.NewGuid().ToString().Replace("-", "");
+            var llave = GenerarLlave();
 
             var llaveApi = new LlaveApi
             {
@@ -27,6 +27,10 @@ namespace WebAPIAutores.Servicios
 
             context.Add(llaveApi);
             await context.SaveChangesAsync();
+        }
+        public string GenerarLlave()
+        {
+            return Guid.NewGuid().ToString().Replace("-", "");
         }
     }
 }
