@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebAPIAutores;
 
@@ -11,9 +12,10 @@ using WebAPIAutores;
 namespace WebAPIAutores.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230715202909_Peticiones")]
+    partial class Peticiones
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -341,56 +343,17 @@ namespace WebAPIAutores.Migrations
                     b.Property<DateTime>("FechaPeticion")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("LlaveId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("LlaveId");
-
-                    b.ToTable("Peticiones");
-                });
-
-            modelBuilder.Entity("WebAPIAutores.Entidades.RestriccionDominio", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("Dominio")
+                    b.Property<string>("LlaveId")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("LlaveId")
+                    b.Property<int?>("LlaveId1")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("LlaveId");
+                    b.HasIndex("LlaveId1");
 
-                    b.ToTable("RestriccionesDominio");
-                });
-
-            modelBuilder.Entity("WebAPIAutores.Entidades.RestriccionIP", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("IP")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("LlaveId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("LlaveId");
-
-                    b.ToTable("RestriccionesIP");
+                    b.ToTable("Peticions");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -493,31 +456,7 @@ namespace WebAPIAutores.Migrations
                 {
                     b.HasOne("WebAPIAutores.Entidades.LlaveApi", "Llave")
                         .WithMany()
-                        .HasForeignKey("LlaveId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Llave");
-                });
-
-            modelBuilder.Entity("WebAPIAutores.Entidades.RestriccionDominio", b =>
-                {
-                    b.HasOne("WebAPIAutores.Entidades.LlaveApi", "Llave")
-                        .WithMany()
-                        .HasForeignKey("LlaveId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Llave");
-                });
-
-            modelBuilder.Entity("WebAPIAutores.Entidades.RestriccionIP", b =>
-                {
-                    b.HasOne("WebAPIAutores.Entidades.LlaveApi", "Llave")
-                        .WithMany()
-                        .HasForeignKey("LlaveId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("LlaveId1");
 
                     b.Navigation("Llave");
                 });
